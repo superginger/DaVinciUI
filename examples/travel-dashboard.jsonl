@@ -1,0 +1,47 @@
+{"op":"init","width":750,"height":1334,"background":"$bg","defs":{"bg":{"kind":"linear","x0":0,"y0":0,"x1":0,"y1":1334,"stops":[{"offset":0,"color":"#0B1120"},{"offset":0.55,"color":"#132038"},{"offset":1,"color":"#1A2740"}]},"card":{"fill":"#1E293B","stroke":"#334155","strokeWidth":1,"shadow":{"dx":0,"dy":6,"blur":16,"color":"#00000066"}},"title":{"fontSize":20,"color":"#F1F5F9","bold":true},"label":{"fontSize":13,"color":"#64748B"},"hint":{"fontSize":14,"color":"#94A3B8"},"caption":{"fontSize":12,"color":"#94A3B8"}}}
+{"op":"add","type":"shape","shape":"ellipse","x":480,"y":-140,"width":420,"height":420,"fill":{"kind":"radial","x0":690,"y0":70,"r0":40,"x1":690,"y1":70,"r1":220,"stops":[{"offset":0,"color":"#38BDF840"},{"offset":1,"color":"#38BDF800"}]}}
+{"op":"add","type":"shape","shape":"ellipse","x":-140,"y":860,"width":460,"height":460,"fill":{"kind":"radial","x0":90,"y0":1090,"r0":40,"x1":90,"y1":1090,"r1":240,"stops":[{"offset":0,"color":"#818CF833"},{"offset":1,"color":"#818CF800"}]}}
+{"op":"add","type":"text","x":48,"y":56,"width":520,"height":48,"text":"出行仪表盘 · 杭州","fontSize":34,"color":"#F8FAFC","bold":true}
+{"op":"add","type":"text","x":48,"y":112,"width":520,"height":26,"text":"8月21日 周五 · 距出发还有 2 天","$ref":"$hint","fontSize":16}
+{"op":"add","type":"shape","shape":"roundedRect","x":48,"y":210,"width":654,"height":260,"radius":24,"$ref":"$card"}
+{"op":"add","type":"text","x":540,"y":226,"width":140,"height":20,"text":"天气 · 杭州","$ref":"$label"}
+{"op":"add","type":"image","x":76,"y":238,"width":150,"height":100,"src":"demo://photo-240x160"}
+{"op":"add","type":"text","x":250,"y":226,"width":180,"height":90,"text":"26°","fontSize":64,"color":"#FFFFFF"}
+{"op":"add","type":"text","x":250,"y":316,"width":300,"height":28,"text":"多云转晴 · 微风","fontSize":18,"color":"#CBD5E1"}
+{"op":"add","type":"shape","shape":"rect","x":76,"y":372,"width":598,"height":1,"fill":"#334155"}
+{"op":"add","type":"text","x":76,"y":388,"width":160,"height":22,"text":"周五","fontSize":15,"color":"#94A3B8"}
+{"op":"add","type":"text","x":76,"y":412,"width":160,"height":26,"text":"25° / 31°","fontSize":18,"color":"#F1F5F9"}
+{"op":"add","type":"text","x":296,"y":388,"width":160,"height":22,"text":"周六","fontSize":15,"color":"#94A3B8"}
+{"op":"add","type":"text","x":296,"y":412,"width":160,"height":26,"text":"24° / 33°","fontSize":18,"color":"#F1F5F9"}
+{"op":"add","type":"text","x":516,"y":388,"width":160,"height":22,"text":"周日","fontSize":15,"color":"#94A3B8"}
+{"op":"add","type":"text","x":516,"y":412,"width":160,"height":26,"text":"26° / 34°","fontSize":18,"color":"#F1F5F9"}
+{"op":"add","type":"shape","shape":"roundedRect","x":48,"y":500,"width":654,"height":220,"radius":24,"fill":"#F8FAFC","mask":{"op":"remove","contours":[{"shape":"ellipse","x":32,"y":624,"width":32,"height":32},{"shape":"ellipse","x":686,"y":624,"width":32,"height":32}]}}
+{"op":"add","type":"text","x":76,"y":522,"width":320,"height":44,"text":"HGH → PEK","fontSize":30,"color":"#0F172A","bold":true}
+{"op":"add","type":"text","x":76,"y":570,"width":320,"height":24,"text":"8月23日 · CA1711","$ref":"$label","fontSize":14}
+{"op":"add","type":"text","x":470,"y":524,"width":200,"height":30,"text":"登机口 C12","fontSize":20,"color":"#334155"}
+{"op":"add","type":"text","x":470,"y":560,"width":200,"height":24,"text":"座位 32A · 靠窗","$ref":"$label","fontSize":14}
+{"op":"add","type":"shape","contours":[{"shape":"path","d":"M88,640 H662"}],"stroke":"#CBD5E1","strokeWidth":2,"strokeDash":[10,8]}
+{"op":"add","type":"shape","fill":"#0F172A","opacity":0.85,"contours":[{"shape":"rect","x":76,"y":658,"width":4,"height":44},{"shape":"rect","x":84,"y":658,"width":2,"height":44},{"shape":"rect","x":90,"y":658,"width":5,"height":44},{"shape":"rect","x":99,"y":658,"width":2,"height":44},{"shape":"rect","x":105,"y":658,"width":4,"height":44},{"shape":"rect","x":113,"y":658,"width":2,"height":44},{"shape":"rect","x":119,"y":658,"width":6,"height":44},{"shape":"rect","x":129,"y":658,"width":3,"height":44},{"shape":"rect","x":136,"y":658,"width":2,"height":44},{"shape":"rect","x":142,"y":658,"width":5,"height":44},{"shape":"rect","x":151,"y":658,"width":3,"height":44},{"shape":"rect","x":158,"y":658,"width":2,"height":44},{"shape":"rect","x":164,"y":658,"width":6,"height":44},{"shape":"rect","x":174,"y":658,"width":4,"height":44}]}
+{"op":"add","type":"text","x":360,"y":672,"width":310,"height":20,"text":"凭电子登机牌登机 · 起飞前 30 分钟关闭","$ref":"$hint","fontSize":13,"align":"right"}
+{"op":"add","type":"shape","shape":"roundedRect","x":48,"y":750,"width":654,"height":240,"radius":24,"$ref":"$card"}
+{"op":"add","type":"shape","fillRule":"evenodd","fill":{"kind":"linear","x0":108,"y0":808,"x1":232,"y1":932,"stops":[{"offset":0,"color":"#38BDF8"},{"offset":1,"color":"#818CF8"}]},"contours":[{"shape":"ellipse","x":108,"y":808,"width":124,"height":124},{"shape":"ellipse","x":124,"y":824,"width":92,"height":92}]}
+{"op":"add","type":"text","x":110,"y":848,"width":120,"height":40,"text":"82%","fontSize":28,"color":"#F8FAFC","bold":true,"align":"center"}
+{"op":"add","type":"text","x":280,"y":778,"width":300,"height":30,"text":"行程准备度","$ref":"$title"}
+{"op":"add","type":"text","x":280,"y":818,"width":200,"height":22,"text":"住宿已预订","$ref":"$hint"}
+{"op":"add","type":"shape","shape":"roundedRect","x":280,"y":846,"width":330,"height":10,"radius":5,"fill":"#334155"}
+{"op":"add","type":"shape","shape":"roundedRect","x":280,"y":846,"width":297,"height":10,"radius":5,"fill":"#34D399"}
+{"op":"add","type":"text","x":630,"y":840,"width":48,"height":22,"text":"90%","fontSize":14,"color":"#34D399","align":"right"}
+{"op":"add","type":"text","x":280,"y":884,"width":200,"height":22,"text":"交通卡已开通","$ref":"$hint"}
+{"op":"add","type":"shape","shape":"roundedRect","x":280,"y":912,"width":330,"height":10,"radius":5,"fill":"#334155"}
+{"op":"add","type":"shape","shape":"roundedRect","x":280,"y":912,"width":231,"height":10,"radius":5,"fill":"#FBBF24"}
+{"op":"add","type":"text","x":630,"y":906,"width":48,"height":22,"text":"70%","fontSize":14,"color":"#FBBF24","align":"right"}
+{"op":"add","type":"shape","shape":"roundedRect","x":48,"y":1020,"width":654,"height":240,"radius":24,"$ref":"$card"}
+{"op":"add","type":"text","x":76,"y":1040,"width":300,"height":28,"text":"推荐景点","fontSize":19,"color":"#F1F5F9","bold":true}
+{"op":"add","type":"image","x":76,"y":1084,"width":190,"height":150,"src":"demo://photo-240x160"}
+{"op":"add","type":"image","x":280,"y":1084,"width":190,"height":150,"src":"demo://banner-750x300"}
+{"op":"def","name":"avatar","value":{"op":"keep","contours":[{"shape":"ellipse","x":504,"y":1084,"width":150,"height":150}]}}
+{"op":"add","type":"image","x":484,"y":1084,"width":190,"height":150,"src":"demo://photo-240x160","mask":"$avatar"}
+{"op":"add","type":"text","x":76,"y":1238,"width":190,"height":18,"text":"西湖 · 断桥","$ref":"$caption"}
+{"op":"add","type":"text","x":280,"y":1238,"width":190,"height":18,"text":"钱塘江 · 观潮","$ref":"$caption"}
+{"op":"add","type":"text","x":484,"y":1238,"width":190,"height":18,"text":"灵隐寺 · 祈福","$ref":"$caption","align":"center"}
+{"op":"add","type":"text","x":48,"y":1284,"width":654,"height":22,"text":"由 DaVinciUI v1.1 生成 · 所有坐标与折行确定性渲染","$ref":"$label","align":"center"}

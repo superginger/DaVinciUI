@@ -1,0 +1,59 @@
+{"op":"init","width":750,"height":1334,"background":{"kind":"linear","x0":0,"y0":0,"x1":0,"y1":1334,"stops":[{"offset":0,"color":"#1A1310"},{"offset":0.55,"color":"#120E0D"},{"offset":1,"color":"#0B080A"}]},"defs":{"glow":{"kind":"radial","x0":375,"y0":380,"r0":30,"x1":375,"y1":380,"r1":285,"stops":[{"offset":0,"color":"#FFB84D38"},{"offset":0.55,"color":"#D97E221C"},{"offset":1,"color":"#00000000"}]},"vinyl":{"kind":"radial","x0":375,"y0":315,"r0":25,"x1":375,"y1":380,"r1":235,"stops":[{"offset":0,"color":"#43352A"},{"offset":0.32,"color":"#221A15"},{"offset":0.72,"color":"#120E0D"},{"offset":1,"color":"#060405"}]},"label":{"kind":"radial","x0":375,"y0":358,"r0":5,"x1":375,"y1":380,"r1":80,"stops":[{"offset":0,"color":"#F8E0AE"},{"offset":0.45,"color":"#E4AF5C"},{"offset":1,"color":"#9A5D20"}]},"sheen":{"kind":"linear","x0":215,"y0":205,"x1":520,"y1":555,"stops":[{"offset":0,"color":"#FFF3D842"},{"offset":0.45,"color":"#FFF3D812"},{"offset":1,"color":"#00000000"}]},"gold":{"kind":"linear","x0":160,"y0":1204,"x1":620,"y1":1204,"stops":[{"offset":0,"color":"#F8D082"},{"offset":0.5,"color":"#E2A64D"},{"offset":1,"color":"#B47728"}]},"progressTrack":{"kind":"linear","x0":160,"y0":1204,"x1":620,"y1":1204,"stops":[{"offset":0,"color":"#3A2B20"},{"offset":1,"color":"#241A14"}]},"header":{"fontSize":15,"color":"#C79A55","bold":true,"letterSpacing":8,"align":"center","lineHeightRatio":1.4},"title":{"fontSize":68,"color":"#F6E7C3","bold":true,"letterSpacing":10,"align":"center","lineHeightRatio":1.2},"artist":{"fontSize":24,"color":"#E0A84E","letterSpacing":4,"align":"center","lineHeightRatio":1.4},"quote":{"fontSize":18,"color":"#B39064","italic":true,"letterSpacing":2,"align":"center","lineHeightRatio":1.5},"side":{"fontSize":16,"color":"#C98F3F","bold":true,"letterSpacing":4,"lineHeightRatio":1.4},"trackNo":{"fontSize":20,"color":"#C98F3F","bold":true,"letterSpacing":1,"lineHeightRatio":1.4},"trackTitle":{"fontSize":22,"color":"#E8D3AC","letterSpacing":1,"lineHeightRatio":1.4},"trackTime":{"fontSize":20,"color":"#937B58","align":"right","letterSpacing":1,"lineHeightRatio":1.4},"now":{"fontSize":14,"color":"#C98F3F","bold":true,"letterSpacing":5,"lineHeightRatio":1.4},"progressTime":{"fontSize":18,"color":"#EAD2A1","letterSpacing":1,"lineHeightRatio":1.4},"progressTimeDim":{"fontSize":18,"color":"#8F7B60","align":"right","letterSpacing":1,"lineHeightRatio":1.4},"tag":{"fontSize":14,"color":"#D6B176","letterSpacing":3,"align":"center","lineHeightRatio":1.4},"footer":{"fontSize":13,"color":"#7D6647","letterSpacing":3,"align":"center","lineHeightRatio":1.4},"labelTiny":{"fontSize":10,"color":"#5B3212","bold":true,"letterSpacing":2,"align":"center","lineHeightRatio":1.4}}}
+{"op":"add","type":"shape","shape":"ellipse","x":85,"y":90,"width":580,"height":580,"fill":"$glow","blur":26,"opacity":0.95}
+{"op":"add","type":"shape","shape":"roundedRect","x":28,"y":28,"width":694,"height":1278,"radius":36,"stroke":"#C98F3F26","strokeWidth":1}
+{"op":"add","type":"shape","shape":"roundedRect","x":42,"y":42,"width":666,"height":1250,"radius":26,"stroke":"#E2B46A1A","strokeWidth":1,"strokeDash":[6,10]}
+{"op":"add","type":"text","$ref":"$header","x":48,"y":62,"width":654,"height":30,"text":"MIDNIGHT VINYL ARCHIVE"}
+{"op":"add","type":"shape","shape":"rect","x":305,"y":102,"width":140,"height":1,"fill":"#C98F3F33"}
+{"op":"add","type":"shape","shape":"ellipse","x":160,"y":165,"width":430,"height":430,"fill":"$vinyl","shadow":{"dx":0,"dy":18,"blur":42,"color":"#00000088"}}
+{"op":"add","type":"shape","shape":"ellipse","x":160,"y":165,"width":430,"height":430,"stroke":"#E7B86B33","strokeWidth":2}
+{"op":"add","type":"shape","shape":"ellipse","x":170,"y":175,"width":410,"height":410,"stroke":"#00000066","strokeWidth":4}
+{"op":"add","type":"shape","shape":"ellipse","x":192,"y":197,"width":366,"height":366,"stroke":"#00000055","strokeWidth":2}
+{"op":"add","type":"shape","shape":"ellipse","x":214,"y":219,"width":322,"height":322,"stroke":"#FFF3D80D","strokeWidth":1}
+{"op":"add","type":"shape","shape":"ellipse","x":236,"y":241,"width":278,"height":278,"stroke":"#00000055","strokeWidth":2}
+{"op":"add","type":"shape","shape":"ellipse","x":247,"y":252,"width":256,"height":256,"stroke":"#E2B46A2E","strokeWidth":1,"strokeDash":[1,10]}
+{"op":"add","type":"shape","shape":"ellipse","x":258,"y":263,"width":234,"height":234,"stroke":"#FFD9A012","strokeWidth":1}
+{"op":"add","type":"shape","shape":"ellipse","x":280,"y":285,"width":190,"height":190,"stroke":"#00000055","strokeWidth":2}
+{"op":"add","type":"shape","shape":"ellipse","x":235,"y":215,"width":180,"height":95,"fill":"#FFF3D822","blur":18,"opacity":0.55}
+{"op":"add","type":"shape","shape":"ellipse","x":214,"y":219,"width":322,"height":322,"fill":"$sheen","opacity":0.42,"blur":10}
+{"op":"add","type":"shape","fillRule":"evenodd","fill":"$label","stroke":"#F6D79B55","strokeWidth":1,"contours":[{"shape":"ellipse","x":301,"y":306,"width":148,"height":148},{"shape":"ellipse","x":359,"y":364,"width":32,"height":32}],"shadow":{"dx":0,"dy":2,"blur":8,"color":"#00000055"}}
+{"op":"add","type":"shape","shape":"ellipse","x":363,"y":368,"width":24,"height":24,"stroke":"#2B1A10","strokeWidth":2}
+{"op":"add","type":"shape","shape":"ellipse","x":371,"y":376,"width":8,"height":8,"fill":"#120B07"}
+{"op":"add","type":"text","$ref":"$labelTiny","x":295,"y":325,"width":160,"height":16,"text":"AMBER MOON RECORDS"}
+{"op":"add","type":"text","$ref":"$labelTiny","x":295,"y":426,"width":160,"height":16,"text":"33 1/3 RPM"}
+{"op":"add","type":"text","$ref":"$title","x":50,"y":635,"width":650,"height":100,"text":"深夜唱片店","shadow":{"dx":0,"dy":6,"blur":22,"color":"#00000077"}}
+{"op":"add","type":"text","$ref":"$artist","x":50,"y":745,"width":650,"height":40,"text":"琥珀月亮乐团 · AMBER MOON"}
+{"op":"add","type":"text","$ref":"$quote","x":75,"y":798,"width":600,"height":54,"text":"把城市关掉，只留下唱针下的火光。"}
+{"op":"add","type":"shape","shape":"rect","x":80,"y":858,"width":590,"height":1,"fill":"#C98F3F22"}
+{"op":"add","type":"text","$ref":"$side","x":80,"y":874,"width":380,"height":28,"text":"SIDE A · NIGHT COLLECTION"}
+{"op":"add","type":"text","$ref":"$side","x":470,"y":874,"width":200,"height":28,"text":"TOTAL 24:17","color":"#8F7B60","align":"right"}
+{"op":"add","type":"text","$ref":"$trackNo","x":80,"y":918,"width":44,"height":32,"text":"01"}
+{"op":"add","type":"text","$ref":"$trackTitle","x":134,"y":918,"width":390,"height":32,"text":"霓虹雨巷"}
+{"op":"add","type":"text","$ref":"$trackTime","x":530,"y":918,"width":140,"height":32,"text":"03:58"}
+{"op":"add","type":"text","$ref":"$trackNo","x":80,"y":964,"width":44,"height":32,"text":"02"}
+{"op":"add","type":"text","$ref":"$trackTitle","x":134,"y":964,"width":390,"height":32,"text":"琥珀电台"}
+{"op":"add","type":"text","$ref":"$trackTime","x":530,"y":964,"width":140,"height":32,"text":"04:26"}
+{"op":"add","type":"text","$ref":"$trackNo","x":80,"y":1010,"width":44,"height":32,"text":"03"}
+{"op":"add","type":"text","$ref":"$trackTitle","x":134,"y":1010,"width":390,"height":32,"text":"午夜出租车"}
+{"op":"add","type":"text","$ref":"$trackTime","x":530,"y":1010,"width":140,"height":32,"text":"04:12"}
+{"op":"add","type":"text","$ref":"$trackNo","x":80,"y":1056,"width":44,"height":32,"text":"04"}
+{"op":"add","type":"text","$ref":"$trackTitle","x":134,"y":1056,"width":390,"height":32,"text":"旧钢琴与猫"}
+{"op":"add","type":"text","$ref":"$trackTime","x":530,"y":1056,"width":140,"height":32,"text":"03:49"}
+{"op":"add","type":"text","$ref":"$trackNo","x":80,"y":1102,"width":44,"height":32,"text":"05"}
+{"op":"add","type":"text","$ref":"$trackTitle","x":134,"y":1102,"width":390,"height":32,"text":"黎明前离开"}
+{"op":"add","type":"text","$ref":"$trackTime","x":530,"y":1102,"width":140,"height":32,"text":"07:52"}
+{"op":"add","type":"shape","shape":"rect","x":80,"y":1146,"width":590,"height":1,"fill":"#C98F3F1A"}
+{"op":"add","type":"text","$ref":"$now","x":80,"y":1160,"width":250,"height":24,"text":"NOW PLAYING"}
+{"op":"add","type":"text","$ref":"$now","x":390,"y":1160,"width":280,"height":24,"text":"02 · 琥珀电台","color":"#B39064","align":"right","letterSpacing":2}
+{"op":"add","type":"text","$ref":"$progressTime","x":80,"y":1196,"width":70,"height":28,"text":"02:14"}
+{"op":"add","type":"shape","shape":"roundedRect","x":160,"y":1204,"width":430,"height":8,"radius":4,"fill":"$progressTrack","stroke":"#FFFFFF12","strokeWidth":1}
+{"op":"add","type":"shape","shape":"roundedRect","x":160,"y":1204,"width":430,"height":8,"radius":4,"stroke":"#E2B46A22","strokeWidth":1,"strokeDash":[2,6]}
+{"op":"add","type":"shape","shape":"roundedRect","x":160,"y":1204,"width":205,"height":8,"radius":4,"fill":"$gold","shadow":{"dx":0,"dy":2,"blur":6,"color":"#00000055"}}
+{"op":"add","type":"shape","shape":"ellipse","x":357,"y":1200,"width":16,"height":16,"fill":"#FBE7BC","stroke":"#B47728","strokeWidth":1,"shadow":{"dx":0,"dy":2,"blur":6,"color":"#00000066"}}
+{"op":"add","type":"text","$ref":"$progressTimeDim","x":600,"y":1196,"width":70,"height":28,"text":"07:52"}
+{"op":"add","type":"shape","shape":"roundedRect","x":100,"y":1236,"width":130,"height":36,"radius":18,"fill":"#221812","stroke":"#C98F3F33","strokeWidth":1}
+{"op":"add","type":"text","$ref":"$tag","x":100,"y":1243,"width":130,"height":22,"text":"CITY POP"}
+{"op":"add","type":"shape","shape":"roundedRect","x":250,"y":1236,"width":190,"height":36,"radius":18,"fill":"#221812","stroke":"#C98F3F33","strokeWidth":1}
+{"op":"add","type":"text","$ref":"$tag","x":250,"y":1243,"width":190,"height":22,"text":"MIDNIGHT JAZZ"}
+{"op":"add","type":"shape","shape":"roundedRect","x":460,"y":1236,"width":190,"height":36,"radius":18,"fill":"#221812","stroke":"#C98F3F33","strokeWidth":1}
+{"op":"add","type":"text","$ref":"$tag","x":460,"y":1243,"width":190,"height":22,"text":"ANALOG WARMTH"}
+{"op":"add","type":"text","$ref":"$footer","x":50,"y":1282,"width":650,"height":22,"text":"MIDNIGHT RECORD SHOP · OPEN UNTIL 02:00 · SIDE A"}

@@ -1,0 +1,37 @@
+{"op":"init","width":750,"height":1334,"background":"$bg","defs":{"bg":{"kind":"linear","x0":0,"y0":0,"x1":0,"y1":1334,"stops":[{"offset":0,"color":"#131A33"},{"offset":0.55,"color":"#0A0D1D"},{"offset":1,"color":"#05060D"}]},"moonGlow":{"kind":"radial","x0":375,"y0":430,"r0":40,"x1":375,"y1":455,"r1":235,"stops":[{"offset":0,"color":"#FFF3D8"},{"offset":0.6,"color":"#F4C87E"},{"offset":1,"color":"#E39A4C"}]},"gold":{"kind":"linear","x0":0,"y0":872,"x1":0,"y1":994,"stops":[{"offset":0,"color":"#F6D792"},{"offset":1,"color":"#CE8F3C"}]},"ink":"#070A14","cream":"#F2E9D8","muted":{"fontSize":20,"color":"#7E86A0","letterSpacing":4},"moon":{"op":"keep","contours":[{"shape":"ellipse","x":145,"y":225,"width":460,"height":460}]}}}
+{"op":"add","type":"shape","shape":"roundedRect","x":26,"y":26,"width":698,"height":1282,"radius":20,"stroke":"#2A3050","strokeWidth":1.5}
+{"op":"add","type":"shape","shape":"ellipse","x":96,"y":150,"width":4,"height":4,"fill":"$cream","opacity":0.7}
+{"op":"add","type":"shape","shape":"ellipse","x":652,"y":110,"width":3,"height":3,"fill":"$cream","opacity":0.5}
+{"op":"add","type":"shape","shape":"ellipse","x":588,"y":208,"width":6,"height":6,"fill":"$cream","opacity":0.9,"shadow":{"dx":0,"dy":0,"blur":10,"color":"#F2E9D866"}}
+{"op":"add","type":"shape","shape":"ellipse","x":120,"y":300,"width":3,"height":3,"fill":"$cream","opacity":0.4}
+{"op":"add","type":"shape","shape":"ellipse","x":664,"y":332,"width":4,"height":4,"fill":"$cream","opacity":0.6}
+{"op":"add","type":"shape","shape":"ellipse","x":72,"y":540,"width":3,"height":3,"fill":"$cream","opacity":0.35}
+{"op":"add","type":"shape","shape":"ellipse","x":676,"y":560,"width":3,"height":3,"fill":"$cream","opacity":0.45}
+{"op":"add","type":"shape","shape":"ellipse","x":208,"y":96,"width":3,"height":3,"fill":"$cream","opacity":0.55}
+{"op":"add","type":"shape","shape":"ellipse","x":540,"y":84,"width":3,"height":3,"fill":"$cream","opacity":0.4}
+{"op":"add","type":"shape","shape":"ellipse","x":160,"y":208,"width":3,"height":3,"fill":"$cream","opacity":0.3}
+{"op":"add","type":"shape","shape":"ellipse","x":145,"y":225,"width":460,"height":460,"fill":"$moonGlow","shadow":{"dx":0,"dy":0,"blur":60,"color":"#F4C87E33"}}
+{"op":"add","type":"shape","contours":[{"shape":"path","d":"M180,240 L300,240 L620,660 L500,660 Z"}],"fill":"#FFF6E0","opacity":0.07,"mask":"$moon"}
+{"op":"add","type":"shape","contours":[{"shape":"path","d":"M120,340 L180,340 L520,700 L460,700 Z"}],"fill":"#FFF6E0","opacity":0.05,"mask":"$moon"}
+{"op":"add","type":"shape","contours":[{"shape":"path","d":"M468,652 C430,570 520,520 478,448 C446,392 512,352 492,300"}],"stroke":"#E8DCC0","strokeWidth":3,"opacity":0.5,"blur":1,"mask":"$moon"}
+{"op":"add","type":"shape","fill":"$ink","mask":"$moon","contours":[{"shape":"path","d":"M245,720 C252,606 292,556 340,542 L340,520 C340,512 410,512 410,520 L410,542 C458,556 498,606 505,720 Z"}]}
+{"op":"add","type":"shape","shape":"ellipse","x":323,"y":414,"width":104,"height":112,"fill":"$ink","mask":"$moon"}
+{"op":"add","type":"shape","shape":"ellipse","x":287,"y":414,"width":176,"height":30,"fill":"$ink","mask":"$moon"}
+{"op":"add","type":"shape","fill":"$ink","mask":"$moon","contours":[{"shape":"path","d":"M312,424 C312,376 332,356 375,356 C418,356 438,376 438,424 Z"}]}
+{"op":"def","name":"rim","value":{"stroke":"#F5C069","strokeWidth":3,"opacity":0.8}}
+{"op":"add","type":"shape","contours":[{"shape":"path","d":"M258,700 C266,606 300,562 342,548"}],"$ref":"$rim","mask":"$moon"}
+{"op":"add","type":"shape","contours":[{"shape":"path","d":"M492,700 C486,610 452,562 410,548"}],"$ref":"$rim","opacity":0.35,"strokeWidth":2,"mask":"$moon"}
+{"op":"add","type":"text","x":75,"y":730,"width":600,"height":26,"text":"BLUE HOUR PRESENTS","$ref":"$muted","letterSpacing":6,"align":"center"}
+{"op":"add","type":"text","x":25,"y":768,"width":700,"height":104,"text":"MIDNIGHT","fontSize":92,"color":"$cream","bold":true,"letterSpacing":6,"align":"center"}
+{"op":"add","type":"text","x":25,"y":872,"width":700,"height":122,"text":"NOIR","fontSize":116,"color":"#E9BE6C","bold":true,"letterSpacing":18,"align":"center"}
+{"op":"add","type":"text","x":75,"y":1002,"width":600,"height":34,"text":"爵士 · 夜色 · 胶片","fontSize":26,"color":"#7E86A0","letterSpacing":10,"align":"center"}
+{"op":"add","type":"shape","contours":[{"shape":"path","d":"M175,1052 H575"}],"stroke":"#2A3050","strokeWidth":1}
+{"op":"add","type":"shape","contours":[{"shape":"path","d":"M375,1044 L383,1052 L375,1060 L367,1052 Z"}],"fill":"$gold"}
+{"op":"add","type":"text","x":75,"y":1080,"width":600,"height":40,"text":"SAT · OCT 24 · 21:00","fontSize":30,"color":"$cream","bold":true,"letterSpacing":3,"align":"center"}
+{"op":"add","type":"text","x":75,"y":1126,"width":600,"height":26,"text":"THE VELVET ROOM · 5F","$ref":"$muted","align":"center"}
+{"op":"add","type":"shape","shape":"roundedRect","x":135,"y":1168,"width":480,"height":112,"radius":16,"fill":"#10142A","stroke":"#2A3050","strokeWidth":1,"mask":{"op":"remove","contours":[{"shape":"ellipse","x":121,"y":1210,"width":28,"height":28},{"shape":"ellipse","x":601,"y":1210,"width":28,"height":28}]}}
+{"op":"add","type":"shape","contours":[{"shape":"path","d":"M487,1180 V1268"}],"stroke":"#2A3050","strokeWidth":1.5,"strokeDash":[5,6]}
+{"op":"add","type":"text","x":155,"y":1194,"width":310,"height":34,"text":"ADMIT ONE","fontSize":26,"color":"$cream","bold":true,"letterSpacing":4,"align":"center"}
+{"op":"add","type":"text","x":155,"y":1232,"width":310,"height":26,"text":"Nº 042","fontSize":20,"color":"#D9A441","letterSpacing":2,"align":"center"}
+{"op":"add","type":"shape","fill":"$cream","opacity":0.85,"contours":[{"shape":"rect","x":515,"y":1192,"width":3,"height":64},{"shape":"rect","x":522,"y":1192,"width":2,"height":64},{"shape":"rect","x":528,"y":1192,"width":5,"height":64},{"shape":"rect","x":537,"y":1192,"width":2,"height":64},{"shape":"rect","x":543,"y":1192,"width":4,"height":64},{"shape":"rect","x":551,"y":1192,"width":2,"height":64},{"shape":"rect","x":557,"y":1192,"width":6,"height":64},{"shape":"rect","x":567,"y":1192,"width":2,"height":64},{"shape":"rect","x":573,"y":1192,"width":3,"height":64},{"shape":"rect","x":580,"y":1192,"width":5,"height":64}]}
+{"op":"add","type":"text","x":75,"y":1288,"width":600,"height":18,"text":"「灯暗处，萨克斯响起。」","fontSize":15,"color":"#565D78","align":"center"}

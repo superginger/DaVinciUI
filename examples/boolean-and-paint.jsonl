@@ -1,0 +1,26 @@
+{"op":"init","width":900,"height":1100,"background":"#111827"}
+{"op":"add","type":"text","x":40,"y":28,"width":820,"height":36,"text":"even-odd 复合图形 vs mask：两种挖洞写法与语义分叉","fontSize":26,"color":"#F9FAFB"}
+{"op":"add","type":"text","x":40,"y":80,"width":820,"height":26,"text":"① 矩形 A 挖洞矩形 B（B 在 A 内）","fontSize":16,"color":"#9CA3AF"}
+{"op":"add","type":"shape","fillRule":"evenodd","fill":"#3B82F6","stroke":"#F9FAFB","strokeWidth":3,"contours":[{"shape":"rect","x":60,"y":120,"width":220,"height":220},{"shape":"rect","x":120,"y":180,"width":100,"height":100}]}
+{"op":"add","type":"shape","shape":"rect","x":360,"y":120,"width":220,"height":220,"fill":"#3B82F6","stroke":"#F9FAFB","strokeWidth":3,"mask":{"op":"remove","contours":[{"shape":"rect","x":420,"y":180,"width":100,"height":100}]}}
+{"op":"add","type":"text","x":60,"y":352,"width":260,"height":26,"text":"even-odd：洞沿有描边","fontSize":16,"color":"#9CA3AF"}
+{"op":"add","type":"text","x":360,"y":352,"width":300,"height":26,"text":"mask remove：洞沿无描边","fontSize":16,"color":"#9CA3AF"}
+{"op":"add","type":"text","x":40,"y":400,"width":820,"height":26,"text":"② 洞轮廓凸出外轮廓：even-odd 是异或，mask 是纯减法","fontSize":16,"color":"#9CA3AF"}
+{"op":"add","type":"shape","fillRule":"evenodd","fill":"#10B981","contours":[{"shape":"rect","x":60,"y":440,"width":220,"height":160},{"shape":"rect","x":220,"y":480,"width":140,"height":80}]}
+{"op":"add","type":"shape","shape":"rect","x":360,"y":440,"width":220,"height":160,"fill":"#10B981","mask":{"op":"remove","contours":[{"shape":"rect","x":520,"y":480,"width":140,"height":80}]}}
+{"op":"add","type":"text","x":60,"y":612,"width":300,"height":26,"text":"凸出部分也被填充（XOR）","fontSize":16,"color":"#9CA3AF"}
+{"op":"add","type":"text","x":360,"y":612,"width":300,"height":26,"text":"凸出部分无影响（纯减法）","fontSize":16,"color":"#9CA3AF"}
+{"op":"add","type":"text","x":40,"y":660,"width":820,"height":26,"text":"③ mask 作用于文字 / 图片（矢量布尔到不了的地方）","fontSize":16,"color":"#9CA3AF"}
+{"op":"add","type":"text","x":60,"y":700,"width":240,"height":130,"text":"挖洞","fontSize":96,"color":"#F59E0B","mask":{"op":"remove","contours":[{"shape":"ellipse","x":100,"y":720,"width":150,"height":90}]}}
+{"op":"add","type":"text","x":360,"y":730,"width":300,"height":70,"text":"只留洞内","fontSize":44,"color":"#34D399","mask":{"op":"keep","contours":[{"shape":"ellipse","x":350,"y":710,"width":320,"height":110}]}}
+{"op":"add","type":"image","x":700,"y":700,"width":180,"height":120,"src":"demo://photo-240x160","mask":{"op":"remove","contours":[{"shape":"ellipse","x":740,"y":710,"width":100,"height":100}]}}
+{"op":"add","type":"text","x":60,"y":845,"width":240,"height":26,"text":"文字挖洞","fontSize":16,"color":"#9CA3AF"}
+{"op":"add","type":"text","x":360,"y":845,"width":300,"height":26,"text":"文字只留洞内","fontSize":16,"color":"#9CA3AF"}
+{"op":"add","type":"text","x":700,"y":845,"width":200,"height":26,"text":"图片挖洞","fontSize":16,"color":"#9CA3AF"}
+{"op":"add","type":"text","x":40,"y":888,"width":820,"height":26,"text":"④ 渐变穿过 even-odd 洞 / 圆环 / 贝塞尔 path","fontSize":16,"color":"#9CA3AF"}
+{"op":"add","type":"shape","fillRule":"evenodd","fill":{"kind":"linear","x0":60,"y0":920,"x1":360,"y1":1060,"stops":[{"offset":0,"color":"#F59E0B"},{"offset":1,"color":"#EF4444"}]},"contours":[{"shape":"rect","x":60,"y":920,"width":300,"height":140},{"shape":"ellipse","x":150,"y":950,"width":80,"height":80}]}
+{"op":"add","type":"shape","fillRule":"evenodd","fill":{"kind":"radial","x0":510,"y0":990,"r0":40,"x1":510,"y1":990,"r1":90,"stops":[{"offset":0,"color":"#A78BFA"},{"offset":1,"color":"#6D28D9"}]},"contours":[{"shape":"ellipse","x":430,"y":910,"width":160,"height":160},{"shape":"ellipse","x":470,"y":950,"width":80,"height":80}]}
+{"op":"add","type":"shape","fill":"#EC4899","contours":[{"shape":"path","d":"M750,1060 C700,1020 650,980 650,945 C650,915 675,900 700,900 C720,900 740,912 750,930 C760,912 780,900 800,900 C825,900 850,915 850,945 C850,980 800,1020 750,1060 Z"}]}
+{"op":"add","type":"text","x":60,"y":1072,"width":300,"height":22,"text":"渐变 + even-odd 挖洞","fontSize":14,"color":"#9CA3AF"}
+{"op":"add","type":"text","x":430,"y":1072,"width":200,"height":22,"text":"圆环（evenodd）","fontSize":14,"color":"#9CA3AF"}
+{"op":"add","type":"text","x":650,"y":1072,"width":220,"height":22,"text":"path：贝塞尔任意形状","fontSize":14,"color":"#9CA3AF"}

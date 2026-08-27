@@ -1,0 +1,454 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://davinciui.local/schema/davinciui-v1.1.json",
+  "title": "DaVinciUI v1.1 Instruction",
+  "description": "一条 JSONL 行即一条指令。本 schema 描述单条指令的合法形态。$ 引用位置允许 \"$名字\" 字符串（消费时按流前缀的命名注册表解析）。fact 为渲染端应答，一并定义以便校验交互记录。",
+  "oneOf": [
+    { "$ref": "#/$defs/init" },
+    { "$ref": "#/$defs/add" },
+    { "$ref": "#/$defs/def" },
+    { "$ref": "#/$defs/rollback" },
+    { "$ref": "#/$defs/probe" },
+    { "$ref": "#/$defs/fact" }
+  ],
+  "$defs": {
+    "color": {
+      "type": "string",
+      "pattern": "^#([0-9a-fA-F]{6}|[0-9a-fA-F]{8})$"
+    },
+    "ref": {
+      "type": "string",
+      "pattern": "^\\$.",
+      "description": "命名值引用：$ 开头字符串，消费时从注册表取值（一层解析，不回溯）"
+    },
+    "gradientStop": {
+      "type": "object",
+      "properties": {
+        "offset": { "type": "number", "minimum": 0, "maximum": 1 },
+        "color": { "$ref": "#/$defs/color" }
+      },
+      "required": ["offset", "color"],
+      "additionalProperties": false
+    },
+    "linearGradient": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "linear" },
+        "x0": { "type": "number" },
+        "y0": { "type": "number" },
+        "x1": { "type": "number" },
+        "y1": { "type": "number" },
+        "stops": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/gradientStop" } }
+      },
+      "required": ["kind", "x0", "y0", "x1", "y1", "stops"],
+      "additionalProperties": false
+    },
+    "radialGradient": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "radial" },
+        "x0": { "type": "number" },
+        "y0": { "type": "number" },
+        "r0": { "type": "number", "minimum": 0 },
+        "x1": { "type": "number" },
+        "y1": { "type": "number" },
+        "r1": { "type": "number", "minimum": 0 },
+        "stops": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/gradientStop" } }
+      },
+      "required": ["kind", "x0", "y0", "r0", "x1", "y1", "r1", "stops"],
+      "additionalProperties": false
+    },
+    "paint": {
+      "oneOf": [
+        { "$ref": "#/$defs/color" },
+        { "$ref": "#/$defs/linearGradient" },
+        { "$ref": "#/$defs/radialGradient" }
+      ]
+    },
+    "paintOrRef": {
+      "oneOf": [ { "$ref": "#/$defs/paint" }, { "$ref": "#/$defs/ref" } ]
+    },
+    "colorOrRef": {
+      "oneOf": [ { "$ref": "#/$defs/color" }, { "$ref": "#/$defs/ref" } ]
+    },
+    "radius": {
+      "oneOf": [
+        { "type": "number", "minimum": 0 },
+        { "type": "array", "minItems": 4, "maxItems": 4, "items": { "type": "number", "minimum": 0 }, "description": "[左上, 右上, 右下, 左下]" }
+      ]
+    },
+    "rectContour": {
+      "type": "object",
+      "properties": {
+        "shape": { "const": "rect" },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 }
+      },
+      "required": ["shape", "x", "y", "width", "height"],
+      "additionalProperties": false
+    },
+    "roundedRectContour": {
+      "type": "object",
+      "properties": {
+        "shape": { "const": "roundedRect" },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 },
+        "radius": { "$ref": "#/$defs/radius" }
+      },
+      "required": ["shape", "x", "y", "width", "height", "radius"],
+      "additionalProperties": false
+    },
+    "ellipseContour": {
+      "type": "object",
+      "properties": {
+        "shape": { "const": "ellipse" },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 }
+      },
+      "required": ["shape", "x", "y", "width", "height"],
+      "additionalProperties": false
+    },
+    "pathContour": {
+      "type": "object",
+      "properties": {
+        "shape": { "const": "path" },
+        "d": { "type": "string", "description": "SVG path 数据串，画布绝对坐标" }
+      },
+      "required": ["shape", "d"],
+      "additionalProperties": false
+    },
+    "contour": {
+      "oneOf": [
+        { "$ref": "#/$defs/rectContour" },
+        { "$ref": "#/$defs/roundedRectContour" },
+        { "$ref": "#/$defs/ellipseContour" },
+        { "$ref": "#/$defs/pathContour" }
+      ]
+    },
+    "contoursOrRef": {
+      "oneOf": [
+        { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/contour" } },
+        { "$ref": "#/$defs/ref" }
+      ],
+      "description": "引用时目标应为几何值 {contours, fillRule} 或轮廓数组"
+    },
+    "mask": {
+      "type": "object",
+      "description": "任意 add 元素可携带。轮廓为画布绝对坐标，几何与复合形状同构。",
+      "properties": {
+        "op": { "enum": ["remove", "keep"] },
+        "fillRule": { "const": "evenodd" },
+        "contours": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/contour" } }
+      },
+      "required": ["op", "contours"],
+      "additionalProperties": false
+    },
+    "maskOrRef": {
+      "oneOf": [ { "$ref": "#/$defs/mask" }, { "$ref": "#/$defs/ref" } ]
+    },
+    "shadow": {
+      "type": "object",
+      "description": "轮廓投影（drop-shadow 语义）：对元素最终合成后的 alpha 轮廓投影，只投一次",
+      "properties": {
+        "dx": { "type": "number" },
+        "dy": { "type": "number" },
+        "blur": { "type": "number", "minimum": 0 },
+        "color": { "$ref": "#/$defs/color" }
+      },
+      "required": ["dx", "dy", "blur", "color"],
+      "additionalProperties": false
+    },
+    "elementExtras": {
+      "type": "object",
+      "description": "任意 add 元素公共字段（以 allOf 并入各元素定义）",
+      "properties": {
+        "opacity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "blur": { "type": "number", "minimum": 0, "description": "对称高斯模糊半径" },
+        "shadow": { "$ref": "#/$defs/shadow" },
+        "mask": { "$ref": "#/$defs/maskOrRef" },
+        "$ref": { "$ref": "#/$defs/ref", "description": "样式包引用，展开为基底字段" }
+      }
+    },
+    "init": {
+      "type": "object",
+      "properties": {
+        "op": { "const": "init" },
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 },
+        "background": {
+          "oneOf": [ { "$ref": "#/$defs/paint" }, { "$ref": "#/$defs/ref" } ]
+        },
+        "defs": {
+          "type": "object",
+          "description": "命名值批量声明：name → 任意协议值（几何值/paint/样式包）",
+          "additionalProperties": {}
+        }
+      },
+      "required": ["op", "width", "height"],
+      "additionalProperties": false
+    },
+    "textAdd": {
+      "type": "object",
+      "properties": {
+        "op": { "const": "add" },
+        "type": { "const": "text" },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 },
+        "text": { "type": "string" },
+        "fontSize": { "type": "number", "exclusiveMinimum": 0 },
+        "color": { "$ref": "#/$defs/colorOrRef" },
+        "bold": { "type": "boolean" },
+        "italic": { "type": "boolean" },
+        "align": { "enum": ["left", "center", "right"] },
+        "letterSpacing": { "type": "number" },
+        "lineHeightRatio": { "type": "number", "exclusiveMinimum": 0 },
+        "opacity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "blur": { "type": "number", "minimum": 0 },
+        "shadow": { "$ref": "#/$defs/shadow" },
+        "mask": { "$ref": "#/$defs/maskOrRef" },
+        "$ref": { "$ref": "#/$defs/ref" }
+      },
+      "required": ["op", "type", "x", "y", "width", "height", "text", "fontSize", "color"],
+      "additionalProperties": false
+    },
+    "imageAdd": {
+      "type": "object",
+      "properties": {
+        "op": { "const": "add" },
+        "type": { "const": "image" },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 },
+        "src": { "type": "string" },
+        "sx": { "type": "number" },
+        "sy": { "type": "number" },
+        "sw": { "type": "number", "exclusiveMinimum": 0 },
+        "sh": { "type": "number", "exclusiveMinimum": 0 },
+        "opacity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "blur": { "type": "number", "minimum": 0 },
+        "shadow": { "$ref": "#/$defs/shadow" },
+        "mask": { "$ref": "#/$defs/maskOrRef" },
+        "$ref": { "$ref": "#/$defs/ref" }
+      },
+      "required": ["op", "type", "x", "y", "width", "height", "src"],
+      "additionalProperties": false
+    },
+    "shapeAddSimple": {
+      "type": "object",
+      "description": "简单记法：单轮廓糖，等价于只含一个轮廓的复合形状。roundedRect 必须携带 radius。",
+      "properties": {
+        "op": { "const": "add" },
+        "type": { "const": "shape" },
+        "shape": { "enum": ["rect", "roundedRect", "ellipse"] },
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 },
+        "radius": { "$ref": "#/$defs/radius" },
+        "fill": { "$ref": "#/$defs/paintOrRef" },
+        "stroke": { "$ref": "#/$defs/paintOrRef" },
+        "strokeWidth": { "type": "number", "exclusiveMinimum": 0 },
+        "strokeDash": { "type": "array", "minItems": 1, "items": { "type": "number", "exclusiveMinimum": 0 } },
+        "opacity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "blur": { "type": "number", "minimum": 0 },
+        "shadow": { "$ref": "#/$defs/shadow" },
+        "mask": { "$ref": "#/$defs/maskOrRef" },
+        "$ref": { "$ref": "#/$defs/ref" }
+      },
+      "required": ["op", "type", "shape", "x", "y", "width", "height"],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": { "properties": { "shape": { "const": "roundedRect" } }, "required": ["shape"] },
+          "then": { "required": ["radius"] }
+        }
+      ]
+    },
+    "shapeAddCompound": {
+      "type": "object",
+      "description": "完整记法：复合轮廓。包围盒由渲染端求并得出，不携带元素级几何字段。",
+      "properties": {
+        "op": { "const": "add" },
+        "type": { "const": "shape" },
+        "contours": { "$ref": "#/$defs/contoursOrRef" },
+        "fillRule": { "const": "evenodd" },
+        "fill": { "$ref": "#/$defs/paintOrRef" },
+        "stroke": { "$ref": "#/$defs/paintOrRef" },
+        "strokeWidth": { "type": "number", "exclusiveMinimum": 0 },
+        "strokeDash": { "type": "array", "minItems": 1, "items": { "type": "number", "exclusiveMinimum": 0 } },
+        "opacity": { "type": "number", "minimum": 0, "maximum": 1 },
+        "blur": { "type": "number", "minimum": 0 },
+        "shadow": { "$ref": "#/$defs/shadow" },
+        "mask": { "$ref": "#/$defs/maskOrRef" },
+        "$ref": { "$ref": "#/$defs/ref" }
+      },
+      "required": ["op", "type", "contours"],
+      "additionalProperties": false
+    },
+    "add": {
+      "oneOf": [
+        { "$ref": "#/$defs/textAdd" },
+        { "$ref": "#/$defs/imageAdd" },
+        { "$ref": "#/$defs/shapeAddSimple" },
+        { "$ref": "#/$defs/shapeAddCompound" }
+      ]
+    },
+    "def": {
+      "type": "object",
+      "description": "命名声明：给一个协议值起名。可插入流中任意位置（init 之后），到达即注册、自该点起可引用；与 add 同栈，受 rollback/init 管辖。",
+      "properties": {
+        "op": { "const": "def" },
+        "name": { "type": "string", "minLength": 1 },
+        "value": { "description": "按本质存储的类型化值：几何值 / paint / 样式包等任意协议值" }
+      },
+      "required": ["op", "name", "value"],
+      "additionalProperties": false
+    },
+    "rollback": {
+      "type": "object",
+      "properties": {
+        "op": { "const": "rollback" },
+        "count": { "type": "integer", "minimum": 1 }
+      },
+      "required": ["op"],
+      "additionalProperties": false
+    },
+    "textStyleParams": {
+      "type": "object",
+      "description": "文本探测可选样式参数，必须与绘制同参数（测=画）",
+      "properties": {
+        "bold": { "type": "boolean" },
+        "italic": { "type": "boolean" },
+        "letterSpacing": { "type": "number" },
+        "lineHeightRatio": { "type": "number", "exclusiveMinimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "probeItemText": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "text" },
+        "text": { "type": "string" },
+        "fontSize": { "type": "number", "exclusiveMinimum": 0 },
+        "maxWidth": { "type": "number", "exclusiveMinimum": 0 },
+        "bold": { "type": "boolean" },
+        "italic": { "type": "boolean" },
+        "letterSpacing": { "type": "number" },
+        "lineHeightRatio": { "type": "number", "exclusiveMinimum": 0 }
+      },
+      "required": ["kind", "text", "fontSize", "maxWidth"],
+      "additionalProperties": false
+    },
+    "probeItemTextBBox": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "textBBox" },
+        "text": { "type": "string" },
+        "fontSize": { "type": "number", "exclusiveMinimum": 0 },
+        "bold": { "type": "boolean" },
+        "italic": { "type": "boolean" },
+        "letterSpacing": { "type": "number" }
+      },
+      "required": ["kind", "text", "fontSize"],
+      "additionalProperties": false
+    },
+    "probeItemImage": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "image" },
+        "src": { "type": "string" }
+      },
+      "required": ["kind", "src"],
+      "additionalProperties": false
+    },
+    "probeItem": {
+      "oneOf": [
+        { "$ref": "#/$defs/probeItemText" },
+        { "$ref": "#/$defs/probeItemTextBBox" },
+        { "$ref": "#/$defs/probeItemImage" }
+      ]
+    },
+    "probe": {
+      "type": "object",
+      "description": "一级探测指令：类型化、批量、无渲染副作用。一次 probe = 一次生成中断 = 一个 fact 应答。",
+      "properties": {
+        "op": { "const": "probe" },
+        "items": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/probeItem" } }
+      },
+      "required": ["op", "items"],
+      "additionalProperties": false
+    },
+    "factItemTextOk": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "text" },
+        "ok": { "const": true },
+        "lines": { "type": "integer", "minimum": 1 },
+        "lineWidths": { "type": "array", "items": { "type": "number" } },
+        "height": { "type": "number" }
+      },
+      "required": ["kind", "ok", "lines", "lineWidths", "height"],
+      "additionalProperties": false
+    },
+    "factItemTextBBoxOk": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "textBBox" },
+        "ok": { "const": true },
+        "width": { "type": "number" },
+        "ascent": { "type": "number" },
+        "descent": { "type": "number" }
+      },
+      "required": ["kind", "ok", "width", "ascent", "descent"],
+      "additionalProperties": false
+    },
+    "factItemImageOk": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "image" },
+        "ok": { "const": true },
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 }
+      },
+      "required": ["kind", "ok", "width", "height"],
+      "additionalProperties": false
+    },
+    "factItemError": {
+      "type": "object",
+      "properties": {
+        "kind": { "type": "string" },
+        "ok": { "const": false },
+        "error": { "type": "string" }
+      },
+      "required": ["kind", "ok", "error"],
+      "additionalProperties": false
+    },
+    "factItem": {
+      "oneOf": [
+        { "$ref": "#/$defs/factItemTextOk" },
+        { "$ref": "#/$defs/factItemTextBBoxOk" },
+        { "$ref": "#/$defs/factItemImageOk" },
+        { "$ref": "#/$defs/factItemError" }
+      ]
+    },
+    "fact": {
+      "type": "object",
+      "description": "渲染端应答，items 与触发它的 probe.items 按下标配对。渲染端不执行 fact，它注入生成方下一轮上下文。",
+      "properties": {
+        "op": { "const": "fact" },
+        "items": { "type": "array", "items": { "$ref": "#/$defs/factItem" } }
+      },
+      "required": ["op", "items"],
+      "additionalProperties": false
+    }
+  }
+}

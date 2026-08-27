@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DaVinciUI v1.1 · 参考渲染器</title>
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --border: #30363d;
+    --fg: #e6edf3; --muted: #8b949e; --accent: #58a6ff;
+    --ok: #3fb950; --warn: #d29922; --err: #f85149; --fact: #bc8cff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font-family: -apple-system, "Helvetica Neue", "PingFang SC", sans-serif;
+  }
+  header {
+    padding: 14px 20px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  header h1 { font-size: 16px; margin: 0; }
+  header span { color: var(--muted); font-size: 12px; }
+  main { display: flex; gap: 16px; padding: 16px 20px; align-items: flex-start; }
+  .stage {
+    flex: 0 0 auto; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px; max-width: 62%;
+  }
+  #canvas {
+    display: block; max-width: 100%; height: auto;
+    background: repeating-conic-gradient(#1c2128 0% 25%, #21262d 0% 50%) 0 0 / 16px 16px;
+    border: 1px solid var(--border);
+  }
+  .side { flex: 1 1 0; min-width: 360px; display: flex; flex-direction: column; gap: 12px; }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px; }
+  .card h2 { font-size: 13px; margin: 0 0 10px; color: var(--muted); font-weight: 600; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  select, button, textarea {
+    background: #21262d; color: var(--fg); border: 1px solid var(--border);
+    border-radius: 6px; font-size: 13px; padding: 6px 10px; font-family: inherit;
+  }
+  button { cursor: pointer; }
+  button:hover { border-color: var(--accent); }
+  button:disabled { opacity: .45; cursor: default; }
+  button.primary { background: #1f6feb; border-color: #1f6feb; }
+  textarea { width: 100%; font-family: ui-monospace, Menlo, monospace; font-size: 12px; resize: vertical; }
+  #log {
+    font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+    max-height: 420px; overflow-y: auto; display: flex; flex-direction: column; gap: 4px;
+  }
+  .log-line { padding: 4px 8px; border-radius: 4px; background: #0d1117; border: 1px solid transparent; word-break: break-all; }
+  .log-line .tag { font-weight: 700; margin-right: 6px; }
+  .log-applied .tag { color: var(--ok); }
+  .log-skipped .tag { color: var(--err); }
+  .log-probe   .tag { color: var(--warn); }
+  .log-fact    .tag { color: var(--fact); }
+  .log-noop    .tag { color: var(--muted); }
+  .log-fact { border-color: rgba(188,140,255,.35); }
+  #stack { font-family: ui-monospace, Menlo, monospace; font-size: 12px; color: var(--muted); max-height: 180px; overflow-y: auto; }
+  #stack .depth { color: var(--fg); margin-bottom: 6px; }
+  .hint { color: var(--muted); font-size: 12px; line-height: 1.6; }
+</style>
+</head>
+<body>
+<header>
+  <h1>DaVinciUI v1.1 · 参考渲染器</h1>
+  <span>顺序即层级 · 绝对坐标 · 先测后画</span>
+</header>
+<main>
+  <section class="stage">
+    <canvas id="canvas" width="0" height="0"></canvas>
+  </section>
+  <aside class="side">
+    <div class="card">
+      <h2>示例指令流</h2>
+      <div class="row">
+        <select id="example-select">
+          <option value="../examples/great-wave-qoder.jsonl">great-wave-qoder — 神奈川冲浪里（助手同题参赛作品）</option>
+          <option value="../examples/great-wave.jsonl">great-wave — 神奈川冲浪里（精细 path 压测）</option>
+          <option value="../examples/noir-jazz-poster.jsonl">noir-jazz-poster — 黑色电影爵士之夜（人物剪影/遮罩/evenodd）</option>
+          <option value="../examples/midnight-vinyl-qwen.jsonl">midnight-vinyl-qwen — 深夜唱片店（qwen3.8-max 同题生成）</option>
+          <option value="../examples/midnight-vinyl.jsonl">midnight-vinyl — 深夜唱片店（外部模型一次生成）</option>
+          <option value="../examples/travel-dashboard.jsonl">travel-dashboard — 出行仪表盘（页面级复合示例）</option>
+          <option value="../examples/boolean-and-paint.jsonl">boolean-and-paint — even-odd / mask / 渐变挖洞</option>
+          <option value="../examples/twilight-lake.jsonl">twilight-lake — 暮色湖语（纯美学创作）</option>
+          <option value="../examples/probe-flow.jsonl">probe-flow — 探测→应答→续画（先测后画）</option>
+        </select>
+        <button id="btn-load" class="primary">载入</button>
+      </div>
+      <div class="row" style="margin-top:8px">
+        <button id="btn-play">▶ 流式播放</button>
+        <button id="btn-step">⏭ 单步</button>
+        <button id="btn-reset">⟲ 重置</button>
+        <label class="hint"><input type="checkbox" id="chk-slow"> 慢速</label>
+      </div>
+      <p class="hint">probe 指令会暂停播放，由渲染器实测并生成 fact（紫色行），模拟"下一轮生成"继续执行。</p>
+    </div>
+    <div class="card">
+      <h2>自定义指令（JSONL，一行一条）</h2>
+      <textarea id="custom-input" rows="5" placeholder='{"op":"init","width":400,"height":200,"background":"#111827"}'></textarea>
+      <div class="row" style="margin-top:8px">
+        <button id="btn-run-custom" class="primary">执行</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>执行日志</h2>
+      <div id="log"></div>
+    </div>
+    <div class="card">
+      <h2>内容栈（画布清单投影）</h2>
+      <div id="stack"></div>
+    </div>
+  </aside>
+</main>
+<script src="./renderer.js?v=2"></script>
+<script src="./demo.js?v=2"></script>
+</body>
+</html>
