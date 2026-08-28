@@ -33,20 +33,20 @@
     "linearGradient": {
       "type": "object",
       "properties": {
-        "kind": { "const": "linear" },
+        "type": { "const": "linear" },
         "x0": { "type": "number" },
         "y0": { "type": "number" },
         "x1": { "type": "number" },
         "y1": { "type": "number" },
         "stops": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/gradientStop" } }
       },
-      "required": ["kind", "x0", "y0", "x1", "y1", "stops"],
+      "required": ["type", "x0", "y0", "x1", "y1", "stops"],
       "additionalProperties": false
     },
     "radialGradient": {
       "type": "object",
       "properties": {
-        "kind": { "const": "radial" },
+        "type": { "const": "radial" },
         "x0": { "type": "number" },
         "y0": { "type": "number" },
         "r0": { "type": "number", "minimum": 0 },
@@ -55,7 +55,7 @@
         "r1": { "type": "number", "minimum": 0 },
         "stops": { "type": "array", "minItems": 2, "items": { "$ref": "#/$defs/gradientStop" } }
       },
-      "required": ["kind", "x0", "y0", "r0", "x1", "y1", "r1", "stops"],
+      "required": ["type", "x0", "y0", "r0", "x1", "y1", "r1", "stops"],
       "additionalProperties": false
     },
     "paint": {
@@ -336,7 +336,7 @@
     "probeItemText": {
       "type": "object",
       "properties": {
-        "kind": { "const": "text" },
+        "type": { "const": "text" },
         "text": { "type": "string" },
         "fontSize": { "type": "number", "exclusiveMinimum": 0 },
         "maxWidth": { "type": "number", "exclusiveMinimum": 0 },
@@ -345,29 +345,29 @@
         "letterSpacing": { "type": "number" },
         "lineHeightRatio": { "type": "number", "exclusiveMinimum": 0 }
       },
-      "required": ["kind", "text", "fontSize", "maxWidth"],
+      "required": ["type", "text", "fontSize", "maxWidth"],
       "additionalProperties": false
     },
     "probeItemTextBBox": {
       "type": "object",
       "properties": {
-        "kind": { "const": "textBBox" },
+        "type": { "const": "textBBox" },
         "text": { "type": "string" },
         "fontSize": { "type": "number", "exclusiveMinimum": 0 },
         "bold": { "type": "boolean" },
         "italic": { "type": "boolean" },
         "letterSpacing": { "type": "number" }
       },
-      "required": ["kind", "text", "fontSize"],
+      "required": ["type", "text", "fontSize"],
       "additionalProperties": false
     },
     "probeItemImage": {
       "type": "object",
       "properties": {
-        "kind": { "const": "image" },
+        "type": { "const": "image" },
         "src": { "type": "string" }
       },
-      "required": ["kind", "src"],
+      "required": ["type", "src"],
       "additionalProperties": false
     },
     "probeItem": {
@@ -390,46 +390,46 @@
     "factItemTextOk": {
       "type": "object",
       "properties": {
-        "kind": { "const": "text" },
+        "type": { "const": "text" },
         "ok": { "const": true },
         "lines": { "type": "integer", "minimum": 1 },
         "lineWidths": { "type": "array", "items": { "type": "number" } },
         "height": { "type": "number" }
       },
-      "required": ["kind", "ok", "lines", "lineWidths", "height"],
+      "required": ["type", "ok", "lines", "lineWidths", "height"],
       "additionalProperties": false
     },
     "factItemTextBBoxOk": {
       "type": "object",
       "properties": {
-        "kind": { "const": "textBBox" },
+        "type": { "const": "textBBox" },
         "ok": { "const": true },
         "width": { "type": "number" },
         "ascent": { "type": "number" },
         "descent": { "type": "number" }
       },
-      "required": ["kind", "ok", "width", "ascent", "descent"],
+      "required": ["type", "ok", "width", "ascent", "descent"],
       "additionalProperties": false
     },
     "factItemImageOk": {
       "type": "object",
       "properties": {
-        "kind": { "const": "image" },
+        "type": { "const": "image" },
         "ok": { "const": true },
         "width": { "type": "number", "exclusiveMinimum": 0 },
         "height": { "type": "number", "exclusiveMinimum": 0 }
       },
-      "required": ["kind", "ok", "width", "height"],
+      "required": ["type", "ok", "width", "height"],
       "additionalProperties": false
     },
     "factItemError": {
       "type": "object",
       "properties": {
-        "kind": { "type": "string" },
+        "type": { "type": "string" },
         "ok": { "const": false },
         "error": { "type": "string" }
       },
-      "required": ["kind", "ok", "error"],
+      "required": ["type", "ok", "error"],
       "additionalProperties": false
     },
     "factItem": {

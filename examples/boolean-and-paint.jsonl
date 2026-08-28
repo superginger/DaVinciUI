@@ -18,8 +18,8 @@
 {"op":"add","type":"text","x":360,"y":845,"width":300,"height":26,"text":"文字只留洞内","fontSize":16,"color":"#9CA3AF"}
 {"op":"add","type":"text","x":700,"y":845,"width":200,"height":26,"text":"图片挖洞","fontSize":16,"color":"#9CA3AF"}
 {"op":"add","type":"text","x":40,"y":888,"width":820,"height":26,"text":"④ 渐变穿过 even-odd 洞 / 圆环 / 贝塞尔 path","fontSize":16,"color":"#9CA3AF"}
-{"op":"add","type":"shape","fillRule":"evenodd","fill":{"kind":"linear","x0":60,"y0":920,"x1":360,"y1":1060,"stops":[{"offset":0,"color":"#F59E0B"},{"offset":1,"color":"#EF4444"}]},"contours":[{"shape":"rect","x":60,"y":920,"width":300,"height":140},{"shape":"ellipse","x":150,"y":950,"width":80,"height":80}]}
-{"op":"add","type":"shape","fillRule":"evenodd","fill":{"kind":"radial","x0":510,"y0":990,"r0":40,"x1":510,"y1":990,"r1":90,"stops":[{"offset":0,"color":"#A78BFA"},{"offset":1,"color":"#6D28D9"}]},"contours":[{"shape":"ellipse","x":430,"y":910,"width":160,"height":160},{"shape":"ellipse","x":470,"y":950,"width":80,"height":80}]}
+{"op":"add","type":"shape","fillRule":"evenodd","fill":{"type":"linear","x0":60,"y0":920,"x1":360,"y1":1060,"stops":[{"offset":0,"color":"#F59E0B"},{"offset":1,"color":"#EF4444"}]},"contours":[{"shape":"rect","x":60,"y":920,"width":300,"height":140},{"shape":"ellipse","x":150,"y":950,"width":80,"height":80}]}
+{"op":"add","type":"shape","fillRule":"evenodd","fill":{"type":"radial","x0":510,"y0":990,"r0":40,"x1":510,"y1":990,"r1":90,"stops":[{"offset":0,"color":"#A78BFA"},{"offset":1,"color":"#6D28D9"}]},"contours":[{"shape":"ellipse","x":430,"y":910,"width":160,"height":160},{"shape":"ellipse","x":470,"y":950,"width":80,"height":80}]}
 {"op":"add","type":"shape","fill":"#EC4899","contours":[{"shape":"path","d":"M750,1060 C700,1020 650,980 650,945 C650,915 675,900 700,900 C720,900 740,912 750,930 C760,912 780,900 800,900 C825,900 850,915 850,945 C850,980 800,1020 750,1060 Z"}]}
 {"op":"add","type":"text","x":60,"y":1072,"width":300,"height":22,"text":"渐变 + even-odd 挖洞","fontSize":14,"color":"#9CA3AF"}
 {"op":"add","type":"text","x":430,"y":1072,"width":200,"height":22,"text":"圆环（evenodd）","fontSize":14,"color":"#9CA3AF"}

@@ -1,7 +1,8 @@
+{"op":"probe","items":[{"type":"textBBox","text":"杭州 · 出行提示","fontSize":28,"bold":true}]}
 {"op":"init","width":750,"height":480,"background":"#0F172A"}
 {"op":"add","type":"text","x":48,"y":36,"width":400,"height":40,"text":"杭州 · 出行提示","fontSize":28,"color":"#F8FAFC"}
-{"op":"probe","items":[{"kind":"text","text":"明日多云转晴，紫外线较强，适合出行，注意防晒。","fontSize":22,"maxWidth":300},{"kind":"image","src":"demo://photo-240x160"}]}
+{"op":"probe","items":[{"type":"text","text":"明日多云转晴，紫外线较强，适合出行，注意防晒。","fontSize":22,"maxWidth":300},{"type":"image","src":"demo://photo-240x160"}]}
 {"op":"add","type":"shape","shape":"rect","x":48,"y":96,"width":320,"height":78,"fill":"#1E293B"}
 {"op":"add","type":"text","x":58,"y":104,"width":300,"height":62,"text":"明日多云转晴，紫外线较强，适合出行，注意防晒。","fontSize":22,"color":"#CBD5E1"}
 {"op":"add","type":"image","x":48,"y":196,"width":330,"height":220,"src":"demo://photo-240x160"}
-{"op":"add","type":"text","x":400,"y":200,"width":300,"height":140,"text":"第一轮 probe 测得：段落折行 2 行、高 61.6 → 盒子取 300×62；图片原始尺寸 240×160 → 盒子取 3:2（330×220），不变形。","fontSize":16,"color":"#94A3B8"}
+{"op":"add","type":"text","x":400,"y":200,"width":300,"height":140,"text":"第一轮先测后画：init 前先 probe 测得标题单行宽（probe 豁免 init 门槛）；init 后段落折行 2 行、高 61.6 → 盒子取 300×62；图片原始尺寸 240×160 → 盒子取 3:2（330×220），不变形。","fontSize":16,"color":"#94A3B8"}

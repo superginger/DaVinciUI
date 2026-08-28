@@ -53,7 +53,7 @@
 
 规则：
 
-- 必须是流中的第一条有效指令；`init` 之前出现的 `add`/`def`/`rollback`/`probe` 一律跳过。
+- 必须是流中的第一条绘制指令；`init` 之前出现的 `add`/`def`/`rollback` 一律跳过。`probe` 豁免（无副作用、不碰栈，§4.5）：先测后画首轮可先 `probe` 后 `init`。
 - **重复收到 `init` = 重置画布、清空内容栈、清空命名注册表**（多轮场景下的"整幅重画"入口）。
 
 ### 4.2 `add` — 追加内容
@@ -119,7 +119,7 @@
 给一个**值**起名，供后续指令以 `$名字` 引用（引用机制见 §8）。
 
 ```json
-{ "op": "def", "name": "brand", "value": { "kind": "linear", "x0": 0, "y0": 0, "x1": 300, "y1": 0,
+{ "op": "def", "name": "brand", "value": { "type": "linear", "x0": 0, "y0": 0, "x1": 300, "y1": 0,
   "stops": [ { "offset": 0, "color": "#38BDF8" }, { "offset": 1, "color": "#818CF8" } ] } }
 ```
 
@@ -153,15 +153,15 @@
 
 ```json
 { "op": "probe", "items": [
-    { "kind": "text",  "text": "明日多云转晴，适合出行。", "fontSize": 22, "maxWidth": 654 },
-    { "kind": "textBBox", "text": "26°", "fontSize": 64, "bold": true },
-    { "kind": "image", "src": "https://example.com/a.png" }
+    { "type": "text",  "text": "明日多云转晴，适合出行。", "fontSize": 22, "maxWidth": 654 },
+    { "type": "textBBox", "text": "26°", "fontSize": 64, "bold": true },
+    { "type": "image", "src": "https://example.com/a.png" }
 ] }
 ```
 
 v1.1 探测类型注册表：
 
-| kind | 参数 | 回答 | 用途 |
+| type | 参数 | 回答 | 用途 |
 |---|---|---|---|
 | `text` | `text`、`fontSize`、`maxWidth`（必填）；`bold`/`italic`/`letterSpacing`/`lineHeightRatio`（可选，与绘制同参数） | `lines`（行数）、`lineWidths`（每行实测宽度）、`height`（= 行数 × fontSize × lineHeightRatio） | 折行模拟：文本块实际占多高，决定其下方内容如何摆放 |
 | `textBBox` | `text`、`fontSize`（必填）；`bold`/`italic`/`letterSpacing`（可选） | `width`（不折行单行实测宽）、`ascent` / `descent`（基线上下实测高） | 单行文本精确定位（居中、右对齐、与图形对位） |
@@ -173,18 +173,19 @@ v1.1 探测类型注册表：
 
 - **探测的实现必须与渲染共用同一套引擎**（尤其文本折行），测得值必然等于渲染值——这是"先测后画"不翻车的结构性保证。
 - 一次 `probe` = 一次中断 = 一个 `fact` 应答；`items` 内各项并行测量。
+- 协议判别字段全局统一为 `type`：add 元素、probe/fact 项、paint 渐变同用，不设其他判别字段名。
 
 ### 4.6 `fact` — 事实应答（渲染端 → 生成方）
 
 ```json
 { "op": "fact", "items": [
-    { "kind": "text",  "ok": true, "lines": 2, "lineWidths": [286, 220], "height": 61.6 },
-    { "kind": "image", "ok": true, "width": 240, "height": 160 }
+    { "type": "text",  "ok": true, "lines": 2, "lineWidths": [286, 220], "height": 61.6 },
+    { "type": "image", "ok": true, "width": 240, "height": 160 }
 ] }
 ```
 
 - `items` 与触发它的 `probe.items` **按下标配对**：`fact.items[i]` 对应 `probe.items[i]`。
-- 失败项在原位置返回 `{ "kind": ..., "ok": false, "error": "..." }`，保持对齐。
+- 失败项在原位置返回 `{ "type": ..., "ok": false, "error": "..." }`，保持对齐。
 - `fact` 不是渲染指令：渲染端不执行它，它作为上下文注入生成方的下一轮模型访问。
 
 ## 5. paint 类型（颜色与渐变）
@@ -200,14 +201,14 @@ paint := 颜色字符串 "#RRGGBB" / "#RRGGBBAA"
 **线性渐变**：
 
 ```json
-{ "kind": "linear", "x0": 0, "y0": 0, "x1": 300, "y1": 300,
+{ "type": "linear", "x0": 0, "y0": 0, "x1": 300, "y1": 300,
   "stops": [ { "offset": 0, "color": "#FFD54F" }, { "offset": 1, "color": "#FF7043" } ] }
 ```
 
 **径向渐变**：
 
 ```json
-{ "kind": "radial", "x0": 150, "y0": 150, "r0": 20, "x1": 150, "y1": 150, "r1": 160,
+{ "type": "radial", "x0": 150, "y0": 150, "r0": 20, "x1": 150, "y1": 150, "r1": 160,
   "stops": [ { "offset": 0, "color": "#FFFFFF" }, { "offset": 1, "color": "#1677FF" } ] }
 ```
 
@@ -383,7 +384,7 @@ paint := 颜色字符串 "#RRGGBB" / "#RRGGBBAA"
 | 行 JSON 解析失败 | 跳过该行，继续 |
 | 字段缺失、类型错误、非法颜色、非法枚举 | 跳过该条指令，继续 |
 | `$` 引用未定义的名字、`$ref` 目标非对象 | 跳过该条指令，继续 |
-| `init` 之前收到 `add` / `def` / `rollback` / `probe` | 跳过 |
+| `init` 之前收到 `add` / `def` / `rollback` | 跳过（`probe` 豁免，可正常执行） |
 | 坐标/尺寸越界 | 不报错，裁剪渲染 |
 | 图片加载失败 | 渲染为空层，保留栈位 |
 | `rollback.count` 省略/非法 | 按 1 处理 |

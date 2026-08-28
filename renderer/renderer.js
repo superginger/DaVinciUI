@@ -60,11 +60,11 @@ function validatePaint(p, label) {
     return isColor(p) ? null : `${label}: 非法颜色 "${p}"`;
   }
   if (p && typeof p === 'object') {
-    if (p.kind === 'linear' || p.kind === 'radial') {
-      const keys = p.kind === 'linear' ? ['x0', 'y0', 'x1', 'y1'] : ['x0', 'y0', 'r0', 'x1', 'y1', 'r1'];
+    if (p.type === 'linear' || p.type === 'radial') {
+      const keys = p.type === 'linear' ? ['x0', 'y0', 'x1', 'y1'] : ['x0', 'y0', 'r0', 'x1', 'y1', 'r1'];
       for (const k of keys) {
         if (!isNum(p[k])) return `${label}: 渐变缺少数值字段 ${k}`;
-        if (p.kind === 'radial' && (k === 'r0' || k === 'r1') && p[k] < 0) return `${label}: 半径不可为负`;
+        if (p.type === 'radial' && (k === 'r0' || k === 'r1') && p[k] < 0) return `${label}: 半径不可为负`;
       }
       if (!Array.isArray(p.stops) || p.stops.length < 2) return `${label}: stops 至少 2 个`;
       for (const s of p.stops) {
@@ -74,7 +74,7 @@ function validatePaint(p, label) {
       }
       return null;
     }
-    return `${label}: 未知渐变 kind`;
+    return `${label}: 未知渐变 type`;
   }
   return `${label}: 非法 paint`;
 }
@@ -307,21 +307,21 @@ function validateFull(op) {
       if (!Array.isArray(op.items) || op.items.length === 0) return 'probe: items 不能为空';
       for (const it of op.items) {
         if (!it || typeof it !== 'object') return 'probe: item 必须是对象';
-        if (it.kind === 'text') {
+        if (it.type === 'text') {
           if (typeof it.text !== 'string' || !isPosNum(it.fontSize) || !isPosNum(it.maxWidth)) {
             return 'probe.text: text/fontSize/maxWidth 必填';
           }
           const e = validateTextStyle(it, 'probe.text');
           if (e) return e;
-        } else if (it.kind === 'textBBox') {
+        } else if (it.type === 'textBBox') {
           if (typeof it.text !== 'string' || !isPosNum(it.fontSize)) return 'probe.textBBox: text/fontSize 必填';
           if (it.bold !== undefined && typeof it.bold !== 'boolean') return 'probe.textBBox: bold 必须是布尔';
           if (it.italic !== undefined && typeof it.italic !== 'boolean') return 'probe.textBBox: italic 必须是布尔';
           if (it.letterSpacing !== undefined && !isNum(it.letterSpacing)) return 'probe.textBBox: letterSpacing 必须是数值';
-        } else if (it.kind === 'image') {
+        } else if (it.type === 'image') {
           if (typeof it.src !== 'string' || it.src.length === 0) return 'probe.image: src 必填';
         } else {
-          return `probe: 不支持 kind "${it.kind}"`;
+          return `probe: 不支持 type "${it.type}"`;
         }
       }
       return null;
@@ -531,7 +531,7 @@ class CanvasRenderer {
         return { status: 'applied' };
       }
       case 'probe': {
-        if (!this.def) return Promise.resolve({ status: 'skipped', reason: 'init 之前收到 probe' });
+        // probe 豁免 init 门槛：无副作用、不碰栈，先测后画首轮可先 probe 后 init（spec §4.1/§4.5）。
         return this.measure(r.items).then((items) => ({ status: 'fact', fact: { op: 'fact', items } }));
       }
       case 'fact':
@@ -555,35 +555,35 @@ class CanvasRenderer {
     const round1 = (v) => Math.round(v * 10) / 10;
     for (const it of items) {
       try {
-        if (it.kind === 'text') {
+        if (it.type === 'text') {
           this.ctx.save();
           const layout = layoutText(this.ctx, it.text, it.fontSize, it.maxWidth, it);
           this.ctx.restore();
           results.push({
-            kind: 'text', ok: true,
+            type: 'text', ok: true,
             lines: layout.lines.length,
             lineWidths: layout.lineWidths.map(round1),
             height: round1(layout.height),
           });
-        } else if (it.kind === 'textBBox') {
+        } else if (it.type === 'textBBox') {
           this.ctx.save();
           applyTextState(this.ctx, it.fontSize, it);
           const m = this.ctx.measureText(it.text);
           this.ctx.restore();
           results.push({
-            kind: 'textBBox', ok: true,
+            type: 'textBBox', ok: true,
             width: round1(m.width),
             ascent: round1(m.actualBoundingBoxAscent || 0),
             descent: round1(m.actualBoundingBoxDescent || 0),
           });
-        } else if (it.kind === 'image') {
+        } else if (it.type === 'image') {
           const img = await this.loadImage(it.src);
-          results.push({ kind: 'image', ok: true, width: img.naturalWidth, height: img.naturalHeight });
+          results.push({ type: 'image', ok: true, width: img.naturalWidth, height: img.naturalHeight });
         } else {
-          results.push({ kind: String(it.kind), ok: false, error: `不支持的探测类型 "${it.kind}"` });
+          results.push({ type: String(it.type), ok: false, error: `不支持的探测类型 "${it.type}"` });
         }
       } catch (e) {
-        results.push({ kind: String(it.kind || 'unknown'), ok: false, error: String(e && e.message || e) });
+        results.push({ type: String(it.type || 'unknown'), ok: false, error: String(e && e.message || e) });
       }
     }
     return results;
@@ -743,12 +743,12 @@ class CanvasRenderer {
 
 function resolvePaint(ctx, paint) {
   if (typeof paint === 'string') return paint;
-  if (paint.kind === 'linear') {
+  if (paint.type === 'linear') {
     const g = ctx.createLinearGradient(paint.x0, paint.y0, paint.x1, paint.y1);
     for (const s of paint.stops) g.addColorStop(s.offset, s.color);
     return g;
   }
-  if (paint.kind === 'radial') {
+  if (paint.type === 'radial') {
     const g = ctx.createRadialGradient(paint.x0, paint.y0, paint.r0, paint.x1, paint.y1, paint.r1);
     for (const s of paint.stops) g.addColorStop(s.offset, s.color);
     return g;
